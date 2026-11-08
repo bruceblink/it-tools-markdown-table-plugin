@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Markdown Table Formatter</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="page">
+      <header class="heading">
+        <p class="eyebrow" data-copy="eyebrow">Third-party plugin sample</p>
+        <h1 data-copy="title">Markdown Table Formatter</h1>
+        <p class="intro" data-copy="intro">Normalize a simple pipe table in this window. Your input stays here and is never saved.</p>
+      </header>
+
+      <section class="card" aria-labelledby="input-heading">
+        <div class="section-heading">
+          <div>
+            <h2 id="input-heading" data-copy="inputHeading">Input table</h2>
+            <p data-copy="inputHelp">Use one header row, one separator row, and optional data rows. Put an unescaped pipe at each row edge.</p>
+          </div>
+          <span id="table-status" class="badge" role="status" data-state="pending" aria-live="polite">Waiting for input</span>
+        </div>
+        <label for="table-input" data-copy="inputLabel">Markdown pipe table</label>
+        <textarea id="table-input" rows="9" maxlength="100000" spellcheck="false" data-copy-placeholder="inputPlaceholder"></textarea>
+        <p id="table-error" class="error" role="alert" hidden></p>
+      </section>
+
+      <section id="alignment-card" class="card" aria-labelledby="alignment-heading" hidden>
+        <div class="section-heading">
+          <div>
+            <h2 id="alignment-heading" data-copy="alignmentHeading">Column alignment</h2>
+            <p data-copy="alignmentHelp">Choose an alignment for each column. The default keeps Markdown default alignment.</p>
+          </div>
+        </div>
+        <div id="alignment-controls" class="alignment-controls" hidden></div>
+      </section>
+
+      <p id="permission-status" class="privacy-note" role="status" aria-live="polite"></p>
+      <section class="card" aria-labelledby="output-heading">
+        <div class="section-heading">
+          <div>
+            <h2 id="output-heading" data-copy="outputHeading">Formatted output</h2>
+            <p data-copy="outputHelp">The tool formats table structure. It does not render Markdown or interpret cell contents.</p>
+          </div>
+          <span id="table-summary" class="summary" aria-live="polite"></span>
+        </div>
+        <label for="table-output" data-copy="outputLabel">Result</label>
+        <textarea id="table-output" rows="9" readonly spellcheck="false" data-copy-placeholder="outputPlaceholder"></textarea>
+        <div class="form-footer">
+          <p id="copy-result" class="copy-result" role="status" aria-live="polite" data-copy="copyHint">You can select the result and press Ctrl+C at any time.</p>
+          <div class="button-row">
+            <button id="select-output" class="secondary" type="button" disabled data-copy="selectButton">Select result</button>
+            <button id="copy-output" type="button" disabled data-copy="copyButton">Copy with desktop permission</button>
+          </div>
+        </div>
+      </section>
+
+      <p class="privacy-note" data-copy="privacy">Processing stays in this isolated plugin window. The plugin does not save input, call a network service, or log cell contents.</p>
+    </main>
+    <script type="module" src="/plugin.mjs"></script>
+  </body>
+</html>

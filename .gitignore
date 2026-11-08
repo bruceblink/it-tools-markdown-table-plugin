@@ -1,0 +1,11 @@
+node_modules/
+dist/
+build/
+coverage/
+playwright-report/
+test-results/
+*.itplugin
+*.private.pem
+*.public.pem
+.env
+.env.*

@@ -1,0 +1,21 @@
+{
+  "name": "it-tools-markdown-table-formatter-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "packageManager": "pnpm@12.16.1",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e:desktop": "playwright test",
+    "typecheck": "tsc --noEmit --project plugin/tsconfig.json",
+    "stage": "node scripts/stage-plugin.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "typescript": "5.9.3"
+  }
+}

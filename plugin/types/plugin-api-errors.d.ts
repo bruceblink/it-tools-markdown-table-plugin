@@ -1,0 +1,21 @@
+/** Stable error codes returned by the versioned IT Tools plugin API. */
+export type PluginApiErrorCode =
+  | 'invalid-input'
+  | 'transport-error'
+  | 'invalid-response'
+  | 'request-failed'
+  | 'not-found'
+  | 'method-not-allowed'
+  | 'untrusted-initiator'
+  | 'untrusted-origin-header'
+  | 'plugin-inactive'
+  | 'content-type-required'
+  | 'request-too-large'
+  | 'request-timeout'
+  | 'rate-limit-exceeded'
+  | 'too-many-requests'
+  | 'invalid-request'
+  | 'capability-not-requested'
+  | 'permission-denied'
+  | 'capability-failed'
+  | 'response-too-large';
