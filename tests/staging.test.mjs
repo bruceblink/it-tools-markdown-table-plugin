@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFile as execFileCallback } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
@@ -10,31 +11,22 @@ import { promisify } from 'node:util';
 const execFile = promisify(execFileCallback);
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const stageScript = join(projectRoot, 'scripts', 'stage-plugin.mjs');
-const expectedFiles = [
-  'formatter.mjs',
-  'index.html',
-  'plugin.mjs',
-  'plugin.source.json',
-  'styles.css',
-  'types/it-tools-plugin-package.d.ts',
-  'types/it-tools-plugin.d.ts',
-  'types/plugin-api-errors.d.ts',
-  'types/plugin-api-version.d.ts',
-  'types/plugin-capabilities.d.ts',
-];
+const hasZig = spawnSync('zig', ['version'], { stdio: 'ignore' }).status === 0;
+const expectedFiles = ['extension.wasm', 'plugin.manifest.json'];
 
-test('stages only the root manifest and the static plugin allowlist', async () => {
+test('stages only the unsigned v2 manifest and built WASM module', { skip: !hasZig }, async () => {
+  await execFile(process.execPath, [join(projectRoot, 'plugin', 'build.mjs')], { cwd: projectRoot });
   const temporaryParent = await mkdtemp(join(dirname(projectRoot), '.it-tools-plugin-stage-test-'));
   const stagedDirectory = join(temporaryParent, 'plugin');
   try {
     const { stdout } = await execFile(process.execPath, [stageScript, '--output', stagedDirectory], {
       cwd: projectRoot,
     });
-    assert.match(stdout, /Staged org\.it-tools\.markdown-table-formatter 1\.0\.0 \(10 files\)/);
+    assert.match(stdout, /Staged org\.it-tools\.markdown-table-formatter 2\.0\.0 \(2 files\)/);
 
     const stagedFiles = await listFiles(stagedDirectory);
     assert.deepEqual(stagedFiles, expectedFiles);
-    assert.equal(await readFile(join(stagedDirectory, 'plugin.source.json'), 'utf8'), await readFile(join(projectRoot, 'plugin.source.json'), 'utf8'));
+    assert.equal(await readFile(join(stagedDirectory, 'plugin.manifest.json'), 'utf8'), await readFile(join(projectRoot, 'plugin.manifest.json'), 'utf8'));
     assert.equal(await exists(join(stagedDirectory, 'README.md')), false);
     assert.equal(await exists(join(stagedDirectory, 'tests')), false);
     assert.equal(await exists(join(stagedDirectory, 'node_modules')), false);
@@ -44,7 +36,7 @@ test('stages only the root manifest and the static plugin allowlist', async () =
   }
 });
 
-test('runs the staging package script with documented pnpm arguments', async () => {
+test('runs the staging package script with documented pnpm arguments', { skip: !hasZig }, async () => {
   const temporaryParent = await mkdtemp(join(dirname(projectRoot), '.it-tools-plugin-stage-pnpm-test-'));
   const stagedDirectory = join(temporaryParent, 'plugin');
   try {
@@ -58,7 +50,7 @@ test('runs the staging package script with documented pnpm arguments', async () 
       [...prefixArguments, '--dir', projectRoot, 'run', 'stage', '--output', stagedDirectory],
       { cwd: projectRoot },
     );
-    assert.match(stdout, /Staged org\.it-tools\.markdown-table-formatter 1\.0\.0 \(10 files\)/);
+    assert.match(stdout, /Staged org\.it-tools\.markdown-table-formatter 2\.0\.0 \(2 files\)/);
     assert.deepEqual(await listFiles(stagedDirectory), expectedFiles);
   }
   finally {

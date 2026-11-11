@@ -11,11 +11,12 @@
   "scripts": {
     "test": "node --test tests/*.test.mjs",
     "test:e2e:desktop": "playwright test",
-    "typecheck": "tsc --noEmit --project plugin/tsconfig.json",
-    "stage": "node scripts/stage-plugin.mjs"
+    "build": "node plugin/build.mjs",
+    "typecheck": "node --check plugin/build.mjs && node --check scripts/stage-plugin.mjs",
+    "stage": "node scripts/stage-plugin.mjs",
+    "test:wasm": "node --test tests/wasm.test.mjs"
   },
   "devDependencies": {
-    "@playwright/test": "1.64.1",
-    "typescript": "5.9.3"
+    "@playwright/test": "1.64.1"
   }
 }

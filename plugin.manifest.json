@@ -1,0 +1,54 @@
+{
+  "formatVersion": 2,
+  "id": "org.it-tools.markdown-table-formatter",
+  "name": "Markdown Table Formatter",
+  "version": "2.0.0",
+  "apiVersion": {
+    "minInclusive": "2.0.0",
+    "maxExclusive": "3.0.0"
+  },
+  "requestedCapabilities": [],
+  "activationEvents": [
+    "onTool:org.it-tools.markdown-table-formatter/markdown-table-formatter",
+    "onCommand:org.it-tools.markdown-table-formatter/format-markdown-table"
+  ],
+  "contributions": {
+    "tools": [
+      {
+        "id": "org.it-tools.markdown-table-formatter/markdown-table-formatter",
+        "title": "Markdown Table Formatter",
+        "description": "Parse a bounded Markdown pipe table and render it as a host-owned table.",
+        "keywords": ["markdown", "table", "format", "pipe"],
+        "categoryId": "development",
+        "dataProcessing": "memory-only",
+        "offline": "available",
+        "capabilities": [],
+        "inputs": [
+          {
+            "kind": "text",
+            "id": "table",
+            "label": "Markdown pipe table",
+            "description": "Use a header row, a separator row, and optional data rows.",
+            "placeholder": "| Name | Value |\n| --- | ---: |\n| Alice | 10 |",
+            "multiline": true,
+            "required": true,
+            "maxLength": 12000
+          }
+        ],
+        "output": {
+          "kind": "table",
+          "label": "Parsed table"
+        }
+      }
+    ],
+    "commands": [
+      {
+        "id": "org.it-tools.markdown-table-formatter/format-markdown-table",
+        "title": "Format Markdown table",
+        "description": "Parse the Markdown pipe table in the host workbench.",
+        "keywords": ["markdown", "table", "format"],
+        "toolId": "org.it-tools.markdown-table-formatter/markdown-table-formatter"
+      }
+    ]
+  }
+}

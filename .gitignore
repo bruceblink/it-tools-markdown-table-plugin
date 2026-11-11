@@ -5,6 +5,7 @@ coverage/
 playwright-report/
 test-results/
 *.itplugin
+*.itxs
 *.private.pem
 *.public.pem
 .env
