@@ -16,7 +16,7 @@
 
 - Node.js 24 或更新版本。
 - pnpm 12.16.1。
-- Zig 0.17.1 或兼容版本，并能通过 `zig cc` 使用 WebAssembly 链接器。
+- Zig 0.14.1 或兼容版本，并能通过 `zig cc` 使用 WebAssembly 链接器。示例当前已在 Zig 0.17.1 上验证。
 - 要运行桌面 E2E，还需要已构建的 `it-tools-template` 宿主和 Electron 依赖。
 
 ## 本地验证
@@ -45,7 +45,7 @@ corepack pnpm stage --output /tmp/it-tools-markdown-table-plugin-stage
 暂存目录只包含 `plugin.manifest.json` 和 `extension.wasm`。v2 打包器不编译插件；它读取静态清单、计算 WASM SHA-256、加入 `runtime` 和 `entrypoint` 字段，并使用仓库外的 Ed25519 私钥签名：
 
 ```sh
-corepack pnpm --dir /path/to/it-tools-template plugin:keygen \
+corepack pnpm --dir /path/to/it-tools-template plugin:keygen:v2 \
   --key-id markdown-table-sample-publisher \
   --output-directory "$HOME/.config/it-tools/plugin-keys"
 

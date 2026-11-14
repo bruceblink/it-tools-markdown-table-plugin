@@ -89,7 +89,7 @@ test.beforeAll(async () => {
   await page.getByRole('button', { name: 'Preview fingerprint' }).click();
   await expect(page.locator('.signer-preview code')).toContainText('SHA256:');
   await page.getByRole('button', { name: 'Trust this signer' }).click();
-  await expect(page.getByText('Signer key added. Plugin capabilities still require separate approval.')).toBeVisible();
+  await expect(page.getByText('Signer key added.')).toBeVisible();
   const installResult = await page.evaluate(() => window.itToolsDesktop!.installPluginV2Package!());
   expect(installResult).toMatchObject({ ok: true });
 });
