@@ -44,6 +44,19 @@ test('builds the v2 module and returns a host-owned table result', { skip: !hasZ
         rows: [['Each separator cell needs at least three hyphens.']],
       },
     });
+
+    const unicodeTable = `| Name |\n| --- |\n| ${'表'.repeat(80)} |`;
+    assert.equal(unicodeTable.length < 3000, true);
+    assert.deepEqual(execute(moduleBytes, {
+      commandId: 'org.it-tools.markdown-table-formatter/format-markdown-table',
+      input: { table: unicodeTable },
+    }), {
+      kind: 'table',
+      value: {
+        columns: [{ id: 'column1', label: 'Name' }],
+        rows: [['表'.repeat(80)]],
+      },
+    });
   }
   finally {
     await rm(temporaryDirectory, { recursive: true, force: true });

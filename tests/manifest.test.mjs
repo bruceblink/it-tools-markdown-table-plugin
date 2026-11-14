@@ -36,6 +36,6 @@ function expectTextInput() {
     placeholder: '| Name | Value |\n| --- | ---: |\n| Alice | 10 |',
     multiline: true,
     required: true,
-    maxLength: 12000,
+    maxLength: 3000,
   };
 }
